@@ -17,7 +17,24 @@
         "command": "next-extension.test12",
         "title": "Test 12"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id":"next-extension",
+          "title": "Next Extension",
+          "icon": "media/nextjs-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "next-extension":[
+        {
+          "id": "id",
+          "name": "name"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
