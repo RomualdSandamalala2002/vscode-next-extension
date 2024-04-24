@@ -1,7 +1,7 @@
 {
-  "name": "next-extension",
-  "displayName": "next-extension",
-  "description": "An extension for NextJS",
+  "name": "nextjs-extension",
+  "displayName": "nextjs-extension",
+  "description": "An extension for Next.js",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"
@@ -21,17 +21,17 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id":"next-extension",
-          "title": "Next Extension",
+          "id": "nextjs-extension",
+          "title": "Next.js extension",
           "icon": "media/nextjs-icon.svg"
         }
       ]
     },
     "views": {
-      "next-extension":[
+      "nextjs-extension": [
         {
-          "id": "id",
-          "name": "name"
+          "id": "nextjs-extension.route",
+          "name": "Route view"
         }
       ]
     }
