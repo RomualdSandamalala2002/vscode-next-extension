@@ -15,10 +15,31 @@
   "contributes": {
     "commands": [
       {
-        "command": "next-extension.hello-world",
+        "command": "nextjs-extension.hello-world",
         "title": "Display an hello world"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "nextjs-extension",
+          "title": "NextJS Extension",
+          "icon": "asset/nextjs-logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "nextjs-extension": [
+        {
+          "id": "nextjs-overview",
+          "name": "Overview"
+        },
+        {
+          "id": "nextjs-route",
+          "name": "Route of the project"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
