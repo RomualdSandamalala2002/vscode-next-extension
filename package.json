@@ -37,8 +37,6 @@
         {
           "id": "nextjs-route",
           "name": "Route of the project"
-          "id": "nextjs-extension.route",
-          "name": "Route view"
         }
       ]
     }
