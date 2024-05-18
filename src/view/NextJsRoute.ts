@@ -21,8 +21,6 @@ export default class NextJsRouteView implements vscode.TreeDataProvider<NextRout
             return new NextRoute(route);
         });
         
-  
-
         return Promise.resolve(items);
     }
     getParent?(element: NextRoute): vscode.ProviderResult<NextRoute> {

@@ -23,30 +23,22 @@
       "activitybar": [
         {
           "id": "nextjs-extension",
-<<<<<<< HEAD
-          "title": "NextJS Extension",
-          "icon": "asset/nextjs-logo.svg"
-=======
           "title": "Next.js extension",
           "icon": "media/nextjs-icon.svg"
->>>>>>> fc988dc42d2fa3e4e1404356ec3923a101457b1f
         }
       ]
     },
     "views": {
       "nextjs-extension": [
         {
-<<<<<<< HEAD
           "id": "nextjs-overview",
           "name": "Overview"
         },
         {
           "id": "nextjs-route",
           "name": "Route of the project"
-=======
           "id": "nextjs-extension.route",
           "name": "Route view"
->>>>>>> fc988dc42d2fa3e4e1404356ec3923a101457b1f
         }
       ]
     }
