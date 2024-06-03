@@ -12,6 +12,8 @@ export default class NextApiRoute{
      */
     constructor(fileUri:string, pathWorkspace:string) {
         this.fileUri = fileUri;
-        this.apiRouteUrl = fileUri.replace(pathWorkspace,"/");
+        var route = fileUri.replace(pathWorkspace,"");
+        route = route.replace(/route\.tsx?$/i, '');
+        this.apiRouteUrl = route;
     }
 }
