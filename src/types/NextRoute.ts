@@ -12,9 +12,22 @@ export default class NextRoute{
      */
     constructor(fileUri:string, pathWorkspace:string) {
         this.fileUri = fileUri;
-        var route = fileUri.replace(pathWorkspace,"");
-        route = route.replace(/page\.tsx?$/i, '');
-        this.routeUrl = route;
+        this.routeUrl = NextRoute.replacePathFolderToRoute(fileUri,pathWorkspace);
+    }
 
+    /**
+     * Create a route string based on Next.js route protocol
+     * @param path 
+     * @param pathWorkspace 
+     * @returns 
+     */
+    static replacePathFolderToRoute(path:string,pathWorkspace:string):string{
+        var route = path.replace(pathWorkspace,"");
+
+        route = route
+            .replace(/page\.tsx?$/i, '')
+            .replace(/\/\(.+\)/,"");
+
+        return route;
     }
 }

@@ -1,28 +1,25 @@
 import { CancellationToken, Event, ProviderResult, TreeDataProvider, TreeItem } from "vscode";
-import * as vscode from "vscode";
-import * as fs from "node:fs";
-import * as path from "node:path";
 import { PackageJsonProvider } from "../provider/PackageJsonProvider";
 
-export class RouteTreeProvider implements TreeDataProvider<String> {
+export class RouteTreeProvider implements TreeDataProvider<string> {
     packageJsonProvider: PackageJsonProvider;
 
     constructor(private workspaceRoot: string | undefined) {
         this.packageJsonProvider = new PackageJsonProvider(this.workspaceRoot);
     }
 
-    onDidChangeTreeData?: Event<void | String | String[] | null | undefined> | undefined;
+    onDidChangeTreeData?: Event<void | string | string[] | null | undefined> | undefined;
 
-    getTreeItem(element: String): TreeItem | Thenable<TreeItem> {
+    getTreeItem(element: string): TreeItem | Thenable<TreeItem> {
         return new TreeItem(element.toString());
     }
-    getChildren(element?: String | undefined): ProviderResult<String[]> {
+    getChildren(element?: string | undefined): ProviderResult<string[]> {
         return [Object.keys(this.packageJsonProvider.dependencies).toString()];
     }
-    getParent?(element: String): ProviderResult<String> {
+    getParent?(element: string): ProviderResult<string> {
         return null;
     }
-    resolveTreeItem?(item: TreeItem, element: String, token: CancellationToken): ProviderResult<TreeItem> {
+    resolveTreeItem?(item: TreeItem, element: string, token: CancellationToken): ProviderResult<TreeItem> {
         return null;
     }
 }

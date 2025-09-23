@@ -39,9 +39,11 @@ export default class NextJsRouteView
 
         return Promise.resolve(items);
     }
+
     getParent?(element: NextRouteItem): vscode.ProviderResult<NextRouteItem> {
         throw new Error("Method not implemented.");
     }
+
     resolveTreeItem?(
         item: vscode.TreeItem,
         element: NextRouteItem,
@@ -63,6 +65,7 @@ export class NextRouteItem extends vscode.TreeItem {
         this.routeObject = routeObject;
         this.description = routeObject.fileUri;
     }
+
 
     iconPath = {
         light: path.join(

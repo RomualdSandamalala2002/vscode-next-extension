@@ -15,6 +15,10 @@ export function activate(context: vscode.ExtensionContext) {
             ? vscode.workspace.workspaceFolders[0].uri.fsPath
             : undefined;
 
+    if(!rootPath){
+        return;
+    }
+
 	// Initialize the views of the routes
     const nextJsRouteView = new NextJsRouteView(rootPath as string);
     const nextJsApiRouteView = new NextJsApiRouteView(rootPath as string);

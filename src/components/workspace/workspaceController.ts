@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as fg from "fast-glob";
-import * as vscode from "vscode";
 import NextRoute from "../../types/NextRoute";
 import NextApiRoute from "../../types/NextApiRoute";
 
@@ -18,13 +17,13 @@ export default class NextWorkspace {
   constructor(workspace: string) {
     this.pathWorkspace = workspace;
     if (this.pathWorkspace) {
-      var listFolder = fs.readdirSync(this.pathWorkspace);
+      var listFolder = fg.sync(path.join(workspace, "**", "app"),
+        { onlyDirectories: true, absolute: true, ignore: ["**/node_modules/**", "**/.git/**", "**/.next/**"] }
+      );
 
-      // Find if the workspace use the "app" folder or the "src"
-      if (listFolder.indexOf("app")) {
-        this.routeFolder = "app";
-      } else if (listFolder.indexOf("src")) {
-        this.routeFolder = "src";
+      const foundFolder = listFolder.at(0);
+      if(listFolder.length > 0 && foundFolder){
+        this.routeFolder = path.relative(this.pathWorkspace,foundFolder)
       } else {
         throw new Error(`Could not find the "app" or "src" folder`);
       }
