@@ -4,6 +4,10 @@ All notable changes to the "next-extension" extension will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.0.1]
 
 - Initial release
+
+### Added
+
+- Display all the routes and API routes of the Next.js project (src or app directory) (Basic functionality)

@@ -1,3 +1,9 @@
 # Next JS extension for VS Code
 
-Don't have a description for the project, but at last it will be an VS Code extension
+## Introduction
+
+This is a unofficial Next.js extension for VS Code.
+
+## Features
+
+- Display all the routes and API routes of the Next.js project (src or app directory)
