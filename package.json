@@ -8,9 +8,7 @@
     },
     "publisher": "Romuald Rodolphe",
     "categories": [
-        "Other",
-        "Linters",
-        "Debuggers"
+        "Other"
     ],
     "activationEvents": [],
     "main": "./dist/extension.js",
@@ -42,11 +40,11 @@
                 },
                 {
                     "id": "nextjs-route",
-                    "name": "Route of the project"
+                    "name": "Route"
                 },
                 {
                     "id": "nextjs-api-route",
-                    "name": "API Route of the project"
+                    "name": "API Route"
                 }
             ]
         },
