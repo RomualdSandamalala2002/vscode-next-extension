@@ -1,32 +1,25 @@
-import * as fs from "fs";
 import * as path from "path";
 import * as fg from "fast-glob";
 import NextRoute from "../../types/NextRoute";
 import NextApiRoute from "../../types/NextApiRoute";
+import { AppStructureProvider, AppStructureProviderError } from "../../provider/AppStructureProvider";
 
 /**
  * Main class for manipulating the « Next.js » workspace
  */
 export default class NextWorkspace {
-  // TODO : Implement if the Next.js workspace use the src directory for the project
 
   private pathWorkspace: string | null = null;
-
-  private routeFolder?: string;
+  private structure: AppStructureProvider | null = null;
 
   constructor(workspace: string) {
     this.pathWorkspace = workspace;
     if (this.pathWorkspace) {
-      var listFolder = fg.sync(path.join(workspace, "**", "app"),
-        { onlyDirectories: true, absolute: true, ignore: ["**/node_modules/**", "**/.git/**", "**/.next/**"] }
-      );
-
-      const foundFolder = listFolder.at(0);
-      if(listFolder.length > 0 && foundFolder){
-        this.routeFolder = path.relative(this.pathWorkspace,foundFolder)
-      } else {
-        throw new Error(`Could not find the "app" or "src" folder`);
-      }
+      const appStructure = AppStructureProvider.getAppStructure(this.pathWorkspace);
+      if(appStructure)
+        this.structure = new AppStructureProvider(appStructure[1],appStructure[0]);
+      else
+        throw new AppStructureProviderError("Could not find app structure (either Pages router or App router)")
     }
   }
 
@@ -36,13 +29,9 @@ export default class NextWorkspace {
    * @returns {string}
    */
   getRoute(): Array<NextRoute> {
-    if (this.pathWorkspace && this.routeFolder) {
-      // Get the path of the route folder with the workspace folder
-      var pathRoute: string = path.join(this.pathWorkspace, this.routeFolder);
-
-      const routeList: Array<string> = fg.sync(
-        path.join(pathRoute, "**", "page.{js,jsx,ts,tsx}")
-      );
+    if (this.pathWorkspace && this.structure) {
+      const routeList = this.structure.getRouteFiles();
+      const pathRoute = this.structure.pathRouteFolder;
 
       const routeNext: Array<NextRoute> = routeList.map(
         (r) => new NextRoute(r, pathRoute)
@@ -60,13 +49,9 @@ export default class NextWorkspace {
    * @returns {string}
    */
   getApiRoute(): Array<NextApiRoute> {
-    if (this.pathWorkspace && this.routeFolder) {
-      // Get the path of the route folder with the workspace folder
-      var pathRoute: string = path.join(this.pathWorkspace, this.routeFolder);
-
-      const apiRouteList: Array<string> = fg.sync(
-        path.join(pathRoute, "**", "route.{js,ts}")
-      );
+    if (this.pathWorkspace && this.structure) {
+      const apiRouteList: Array<string> = this.structure.getApiRouteFiles();
+      const pathRoute = this.structure.pathRouteFolder;
 
       const apiRouteNext: Array<NextApiRoute> = apiRouteList.map(
         (r) => new NextApiRoute(r, pathRoute)
