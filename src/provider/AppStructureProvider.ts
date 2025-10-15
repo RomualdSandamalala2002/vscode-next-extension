@@ -1,8 +1,10 @@
 import * as path from "path";
 import * as fg from "fast-glob";
 import { readdirSync } from "fs";
+import NextRoute from "../types/NextRoute";
+import NextApiRoute from "../types/NextApiRoute";
 
-export enum AppStructure {
+export const enum AppStructure {
     APP_ROUTER,
     PAGES_ROUTER
 }
@@ -85,18 +87,26 @@ export class AppStructureProvider {
      * @returns 
      */
     getRouteFiles() {
+        var pattern = "",
+            routeList:Array<string> = [],
+            nextRoute:Array<NextRoute> = [];
+        
         if (this.appStructure === null) return [];
-
-        var pattern = "";
 
         if (this.appStructure == AppStructure.APP_ROUTER) {
             pattern = path.join("**", "page.{js,jsx,ts,tsx}");
+            routeList = fg.sync(
+                path.join(this.pathRouteFolder, pattern)
+            );
         } else {
             pattern = path.join("**", "*.{js,jsx,ts,tsx}");
+            routeList = fg.sync(
+                path.join(this.pathRouteFolder, pattern),{
+                    ignore:["**/api/**","**/[_]*.{js,jsx,ts,tsx}"]
+                }
+            );
         }
-        const routeList: Array<string> = fg.sync(
-            path.join(this.pathRouteFolder, pattern)
-        );
+
 
         return routeList;
     }
@@ -106,19 +116,24 @@ export class AppStructureProvider {
      * @returns 
      */
     getApiRouteFiles() {
+        var pattern = "",
+            apiRouteList: Array<string> = [],
+            nextApiRoute: Array<NextApiRoute> = [];
+        
         if (this.appStructure === null) return [];
-
-        var pattern = "";
 
         if (this.appStructure == AppStructure.APP_ROUTER) {
             pattern = path.join("**", "route.{js,ts}");
+            apiRouteList = fg.sync(
+                path.join(this.pathRouteFolder, pattern)
+            );
         } else {
             pattern = path.join("**", "api", "*.{js,jsx,ts,tsx}");
+            apiRouteList = fg.sync(
+                path.join(this.pathRouteFolder, pattern)
+            );
         }
 
-        const apiRouteList: Array<string> = fg.sync(
-            path.join(this.pathRouteFolder, pattern)
-        );
 
         return apiRouteList;
     }
