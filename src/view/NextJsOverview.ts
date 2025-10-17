@@ -1,11 +1,14 @@
 import * as vscode from "vscode";
 import { PackageExplorer } from "../components/package/packageExplorer";
+import { AppStructure } from "../provider/AppStructureProvider";
 
 export default class NextJsOverview implements vscode.TreeDataProvider<vscode.TreeItem>{
     private _packageExplorer: PackageExplorer;
+    private appStructure?: AppStructure;
 
-    constructor(private workspaceRoot:string){
+    constructor(private workspaceRoot:string, appStructure?:AppStructure){
         this._packageExplorer = new PackageExplorer(workspaceRoot);
+        this.appStructure = appStructure;
     }
 
     onDidChangeTreeData?: vscode.Event<void | vscode.TreeItem | vscode.TreeItem[] | null | undefined> | undefined;
@@ -21,6 +24,11 @@ export default class NextJsOverview implements vscode.TreeDataProvider<vscode.Tr
             new NextJsOverviewItem("Next.js version : ", nextJsDetail.version),
             new NextJsOverviewItem("React version : ", reactDetail.version),
         ];
+
+        if(this.appStructure){
+            const description = this.appStructure === AppStructure.PAGES_ROUTER ? "Page router" : "App router";
+            items.push(new NextJsOverviewItem("Application structure : ",description))
+        }
 
         return Promise.resolve(items);
     }

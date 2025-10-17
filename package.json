@@ -1,8 +1,8 @@
 {
     "name": "nextjs-extension",
-    "displayName": "nextjs-extension",
+    "displayName": "Unofficial Next.js extension",
     "description": "An extension for Next.js",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.80.0"
     },
@@ -16,7 +16,7 @@
         "commands": [
             {
                 "command": "nextjs.refresh-workspace",
-                "title": "Refresh the workspace",
+                "title": "Next.js : Refresh the workspace",
                 "icon":{
                   "light": "asset/refresh_light.svg",
                   "dark": "asset/refresh_dark.svg"
@@ -54,7 +54,6 @@
               "command": "nextjs.refresh-workspace",
               "when": "view == nextjs-overview",
               "group": "navigation"
-
             }
           ]
         }
