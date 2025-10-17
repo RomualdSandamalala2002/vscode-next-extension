@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Initialize the views of the routes
     const nextJsRouteView = new NextJsRouteView(rootPath as string);
     const nextJsApiRouteView = new NextJsApiRouteView(rootPath as string);
-
+    
     // Inject the package view into the windows
     vscode.window.createTreeView("nextjs-overview", {
         treeDataProvider: new NextJsOverview(rootPath as string),
@@ -47,6 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
     let refreshCommand = vscode.commands.registerCommand(
 		"nextjs.refresh-workspace",()=>{
 			nextJsRouteView.refresh();
+            nextJsApiRouteView.refresh();
 		}
 	);
 

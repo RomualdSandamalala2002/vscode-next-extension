@@ -14,7 +14,7 @@ export default class NextRoute {
      * @param fileUri Path to the component
      * @param pathWorkspace Path to the workspace
      */
-    constructor(fileUri: string, pathWorkspace: string,appStructure?:AppStructure) {
+    constructor(fileUri: string, pathWorkspace: string,appStructure:AppStructure) {
         this.fileUri = fileUri;
         this.pathWorkspace = pathWorkspace;
         if(appStructure)
@@ -29,7 +29,8 @@ export default class NextRoute {
     replacePathFolderToRoute(): string {
         var route = this.fileUri.replace(this.pathWorkspace, "");
         route = route
-            .replace(/\.(tsx?|jsx?)/,"");
+            .replace(/\.(tsx?|jsx?)/,"")
+            .replace(/\(.+\)[\\/]/,""); // Remove the folder exclude the folder with parenthesis (like => (folder)) as part of the route
 
         if(this.appStructure == AppStructure.APP_ROUTER){
             route = route

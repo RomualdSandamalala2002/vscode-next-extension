@@ -5,8 +5,8 @@ import NextRoute from "../types/NextRoute";
 import NextApiRoute from "../types/NextApiRoute";
 
 export const enum AppStructure {
-    APP_ROUTER,
-    PAGES_ROUTER
+    APP_ROUTER="APP_ROUTER",
+    PAGES_ROUTER="PAGES_ROUTER"
 }
 
 export class AppStructureProviderUtils {
@@ -15,10 +15,10 @@ export class AppStructureProviderUtils {
             hasMainPage = false,
             hasMainLayout = false;
         for (let e of listFiles) {
-            if(e.search(/page\.(tsx?|jsx?)/) !== -1) hasMainPage = true;
-            if(e.search(/layout\.(tsx?|jsx?)/) !== -1) hasMainLayout = true;
+            if (e.search(/page\.(tsx?|jsx?)/) !== -1) hasMainPage = true;
+            if (e.search(/layout\.(tsx?|jsx?)/) !== -1) hasMainLayout = true;
 
-            if(hasMainPage && hasMainLayout){
+            if (hasMainPage && hasMainLayout) {
                 condition = true;
                 break;
             }
@@ -33,18 +33,17 @@ export class AppStructureProviderUtils {
             hasDocument = false;
 
         for (let e of listFiles) {
-            if(e.search(/index\.(tsx?|jsx?)/) !== -1) hasIndex = true;
+            if (e.search(/index\.(tsx?|jsx?)/) !== -1) hasIndex = true;
 
-            if(e.search(/_document\.(tsx?|jsx?)/) !== -1) hasDocument = true;
-            
-            if(hasIndex && hasDocument) {
+            if (e.search(/_document\.(tsx?|jsx?)/) !== -1) hasDocument = true;
+
+            if (hasIndex && hasDocument) {
                 condition = true;
                 break;
             }
         }
 
         return condition;
-
     }
 }
 
@@ -67,16 +66,16 @@ export class AppStructureProvider {
     /**
      * Return if a Next.js workspace use the App Router or the Pages Router
      */
-    static getAppStructure(pathWorkspace: string):[AppStructure,string]|null {
+    static getAppStructure(pathWorkspace: string): [AppStructure, string] | null {
         var listFolder = fg.sync(path.join(pathWorkspace, "**", "{app,pages}"),
-            { absolute: true, ignore: ["**/node_modules/**", "**/.git/**", "**/.next/**"],onlyDirectories:true}
+            { absolute: true, ignore: ["**/node_modules/**", "**/.git/**", "**/.next/**"], onlyDirectories: true }
         );
-        for(let folder of listFolder) {
+        for (let folder of listFolder) {
             var listFiles = readdirSync(folder);
             if (listFiles.length > 0) {
-               listFiles = listFiles.map(e=>path.join(folder,e));
-                if(AppStructureProviderUtils.checkAppRouter(listFiles)) return [AppStructure.APP_ROUTER,folder];
-                if(AppStructureProviderUtils.checkPagesRouter(listFiles)) return [AppStructure.PAGES_ROUTER,folder];
+                listFiles = listFiles.map(e => path.join(folder, e));
+                if (AppStructureProviderUtils.checkAppRouter(listFiles)) return [AppStructure.APP_ROUTER, folder];
+                if (AppStructureProviderUtils.checkPagesRouter(listFiles)) return [AppStructure.PAGES_ROUTER, folder];
             }
         }
         return null;
@@ -88,27 +87,36 @@ export class AppStructureProvider {
      */
     getRouteFiles() {
         var pattern = "",
-            routeList:Array<string> = [],
-            nextRoute:Array<NextRoute> = [];
-        
+            routeList: Array<string> = [],
+            nextRoute: Array<NextRoute> = [];
+
         if (this.appStructure === null) return [];
 
         if (this.appStructure == AppStructure.APP_ROUTER) {
             pattern = path.join("**", "page.{js,jsx,ts,tsx}");
             routeList = fg.sync(
-                path.join(this.pathRouteFolder, pattern)
+                path.join(this.pathRouteFolder, pattern),
+                {
+                    ignore:[
+                        "**/_*/**"
+                    ]
+                }
             );
         } else {
             pattern = path.join("**", "*.{js,jsx,ts,tsx}");
             routeList = fg.sync(
-                path.join(this.pathRouteFolder, pattern),{
-                    ignore:["**/api/**","**/[_]*.{js,jsx,ts,tsx}"]
-                }
+                path.join(this.pathRouteFolder, pattern), {
+                ignore: ["**/api/**", "**/[_]*.{js,jsx,ts,tsx}"]
+            }
             );
         }
 
+        nextRoute = routeList.map(e => {
+            return new NextRoute(e, this.pathRouteFolder, this.appStructure!)
+        })
 
-        return routeList;
+
+        return nextRoute;
     }
 
     /**
@@ -119,7 +127,7 @@ export class AppStructureProvider {
         var pattern = "",
             apiRouteList: Array<string> = [],
             nextApiRoute: Array<NextApiRoute> = [];
-        
+
         if (this.appStructure === null) return [];
 
         if (this.appStructure == AppStructure.APP_ROUTER) {
@@ -134,12 +142,13 @@ export class AppStructureProvider {
             );
         }
 
+        nextApiRoute = apiRouteList.map(e=>{
+            return new NextApiRoute(e,this.pathRouteFolder,this.appStructure!)
+        })
 
-        return apiRouteList;
+        return nextApiRoute;
     }
 }
 
 export class AppStructureProviderError extends Error {
-
-
 }

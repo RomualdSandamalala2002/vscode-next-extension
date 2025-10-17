@@ -1,5 +1,3 @@
-import * as path from "path";
-import * as fg from "fast-glob";
 import NextRoute from "../../types/NextRoute";
 import NextApiRoute from "../../types/NextApiRoute";
 import { AppStructureProvider, AppStructureProviderError } from "../../provider/AppStructureProvider";
@@ -24,20 +22,22 @@ export default class NextWorkspace {
   }
 
   /**
+   * Renew the workspace folder
+   */
+  refreshWorkspace(){
+    if(this.structure && this.structure.appStructure){
+      this.structure = new AppStructureProvider(this.structure?.pathRouteFolder,this.structure?.appStructure);
+    }
+  }
+
+  /**
    * Get the routeof the Next.js project
    *
    * @returns {string}
    */
   getRoute(): Array<NextRoute> {
     if (this.pathWorkspace && this.structure) {
-      const routeList = this.structure.getRouteFiles();
-      const pathRoute = this.structure.pathRouteFolder;
-
-      const routeNext: Array<NextRoute> = routeList.map(
-        (r) => new NextRoute(r, pathRoute)
-      );
-
-      return routeNext;
+      return this.structure.getRouteFiles();
     } else {
       throw new Error(`Could not find workspace`);
     }
@@ -50,14 +50,7 @@ export default class NextWorkspace {
    */
   getApiRoute(): Array<NextApiRoute> {
     if (this.pathWorkspace && this.structure) {
-      const apiRouteList: Array<string> = this.structure.getApiRouteFiles();
-      const pathRoute = this.structure.pathRouteFolder;
-
-      const apiRouteNext: Array<NextApiRoute> = apiRouteList.map(
-        (r) => new NextApiRoute(r, pathRoute)
-      );
-
-      return apiRouteNext;
+      return this.structure.getApiRouteFiles();
     } else {
       throw new Error(`Could not find workspace`);
     }

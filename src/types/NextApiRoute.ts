@@ -14,7 +14,7 @@ export default class NextApiRoute{
      * @param fileUri Path to the API route file
      * @param pathWorkspace Path to the workspace
      */
-    constructor(fileUri:string, pathWorkspace:string, appStructure?:AppStructure) {
+    constructor(fileUri:string, pathWorkspace:string, appStructure:AppStructure) {
         this.fileUri = fileUri;
         this.pathWorkspace = pathWorkspace;
         if(appStructure)
