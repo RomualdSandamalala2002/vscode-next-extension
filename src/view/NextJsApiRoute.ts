@@ -32,12 +32,6 @@ export default class NextJsApiRouteView implements vscode.TreeDataProvider<NextA
 
         return Promise.resolve(items);
     }
-    getParent?(element: NextApiRouteItem): vscode.ProviderResult<NextApiRouteItem> {
-        throw new Error("Method not implemented.");
-    }
-    resolveTreeItem?(item: vscode.TreeItem, element: NextApiRouteItem, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TreeItem> {
-        throw new Error("Method not implemented.");
-    }
 
     refresh() {
         this._onDidChangeTreeData.fire();
@@ -46,11 +40,20 @@ export default class NextJsApiRouteView implements vscode.TreeDataProvider<NextA
 
 export class NextApiRouteItem extends vscode.TreeItem {
     routeObject: NextApiRoute;
+    resourceUri?: vscode.Uri | undefined;
 
     constructor(routeObject: NextApiRoute) {
-        super(routeObject.apiRouteUrl);
+        super(routeObject.fileUri);
         this.routeObject = routeObject;
         this.description = routeObject.fileUri;
+        this.label = this.routeObject.apiRouteUrl;
+        this.resourceUri = vscode.Uri.file(this.routeObject.fileUri);
+        this.command = {
+            command: "vscode.open",
+            arguments: [this.resourceUri],
+            title: "Open file",
+            tooltip: "Open the file"
+        }
     }
 
     iconPath = {
