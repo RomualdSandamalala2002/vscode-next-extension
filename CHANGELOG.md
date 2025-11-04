@@ -21,3 +21,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Changes
 
 - Update README
+
+## [0.1.1]
+
+### Added
+
+- When the route is clicked, it open the file.
+
+### Changes
+
+- Clear some unused methods in `TreeItem` element

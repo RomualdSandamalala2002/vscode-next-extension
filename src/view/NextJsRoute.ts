@@ -7,8 +7,7 @@ import * as path from "path";
  * Class for the NextJS Route view
  */
 export default class NextJsRouteView
-    implements vscode.TreeDataProvider<NextRouteItem>
-{
+    implements vscode.TreeDataProvider<NextRouteItem> {
     private _nextWorkspaceService: NextWorkspace;
 
     private _onDidChangeTreeData: vscode.EventEmitter<
@@ -40,19 +39,7 @@ export default class NextJsRouteView
         return Promise.resolve(items);
     }
 
-    getParent?(element: NextRouteItem): vscode.ProviderResult<NextRouteItem> {
-        throw new Error("Method not implemented.");
-    }
-
-    resolveTreeItem?(
-        item: vscode.TreeItem,
-        element: NextRouteItem,
-        token: vscode.CancellationToken
-    ): vscode.ProviderResult<vscode.TreeItem> {
-        throw new Error("Method not implemented.");
-    }
-
-    refresh():void{
+    refresh(): void {
         this._onDidChangeTreeData.fire();
     }
 }
@@ -61,11 +48,18 @@ export class NextRouteItem extends vscode.TreeItem {
     routeObject: NextRoute;
 
     constructor(routeObject: NextRoute) {
-        super(routeObject.routeUrl);
+        super(routeObject.fileUri);
         this.routeObject = routeObject;
         this.description = routeObject.fileUri;
+        this.label = this.routeObject.routeUrl;
+        this.resourceUri = vscode.Uri.file(this.routeObject.fileUri);
+        this.command = {
+            command: "vscode.open",
+            arguments: [this.resourceUri],
+            title: "Open file",
+            tooltip: "Open the file"
+        }
     }
-
 
     iconPath = {
         light: path.join(

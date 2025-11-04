@@ -2,7 +2,7 @@
     "name": "nextjs-extension",
     "displayName": "Unofficial Next.js extension",
     "description": "An extension for Next.js",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "engines": {
         "vscode": "^1.80.0"
     },
