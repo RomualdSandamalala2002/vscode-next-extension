@@ -1,5 +1,3 @@
-**This extension is on development right now. Not ready yet 😉**
-
 # Next.js extension for VS Code
 
 ## Introduction
@@ -13,8 +11,8 @@ It aims to be a **Swiss Army knife** for managing Next.js project structure, con
 * **Next.js Route Discovery:** Automatically display all detected application routes and API endpoints within your project (supporting both the `src` and `app` directories).
 * **Project Structure Analysis:** Accurately detect and report the architectural style of your Next.js project, distinguishing between the **App Router** and **Pages Router** paradigms.
 * **Dependency Version Reporting:** Easily access and display the current versions of key dependencies, specifically **Next.js** and **React**.
+* **On-the-Fly File Navigation:** Active development to enable quick navigation and direct opening of page files from within the assistant interface.
 * **Linter Configuration Detection (Planned):** Future capability to identify and report on the configured linter setup (e.g., ESLint rules) to ensure coding standards are maintained.
-* **On-the-Fly File Navigation (In Progress):** Active development to enable quick navigation and direct opening of page files from within the assistant interface.
 
 ## Usage
 
